@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 	"github.com/abdullahPrasetio/base-go/configs"
+	"github.com/abdullahPrasetio/base-go/utils/log"
 	"time"
 
 	_ "github.com/go-sql-driver/mysql"
@@ -39,6 +40,7 @@ func loadDbConfig() (string, error) {
 }
 
 func GetConnection() (*sql.DB, error) {
+	log.Logger.Info("Load config database")
 	connString, err := loadDbConfig()
 	if err != nil {
 		return nil, err
@@ -52,5 +54,6 @@ func GetConnection() (*sql.DB, error) {
 	db.SetConnMaxIdleTime(5 * time.Minute)
 	db.SetConnMaxLifetime(60 * time.Minute)
 
+	log.Logger.Info("Successfully connected to database")
 	return db, nil
 }

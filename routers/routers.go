@@ -4,8 +4,9 @@ import (
 	"database/sql"
 	"github.com/abdullahPrasetio/base-go/constants"
 	"github.com/abdullahPrasetio/base-go/database"
-	"github.com/abdullahPrasetio/base-go/helpers"
 	"github.com/abdullahPrasetio/base-go/library/newvalidator"
+	"github.com/abdullahPrasetio/base-go/middleware"
+	http2 "github.com/abdullahPrasetio/base-go/utils/http"
 	log "github.com/abdullahPrasetio/base-go/utils/log"
 	formatter "github.com/abdullahPrasetio/validation-formatter"
 	formatterLang "github.com/abdullahPrasetio/validation-formatter/lang"
@@ -28,7 +29,8 @@ func SetupRouter() *gin.Engine {
 	newvalidate := formatter.NewValidateFormatter(NewLang, "SnackCase")
 	db, err := database.GetConnection()
 	if err != nil {
-		log.Logger.Info("server shutdown gracefully")
+		log.Logger.Info("Error connecting to database...")
+		panic(err)
 	}
 	binding.Validator = new(newvalidator.DefaultValidator)
 	r := routes{
@@ -40,12 +42,12 @@ func SetupRouter() *gin.Engine {
 	r.router.Use(gin.Logger())   // Logger
 	r.router.Use(gin.Recovery()) // Jika error panic maka akan recover
 	r.router.Use(cors.Default())
-	api := r.router.Group(constants.ServerDefaultRoute)
+	api := r.router.Group(constants.ServerDefaultRoute, middleware.WriteRequestLog(), middleware.AddDefaultHeader())
 	r.addExampleRoute(api)
 	api.GET("/healtz", checkHealtz)
 	return r.router
 }
 
 func checkHealtz(c *gin.Context) {
-	c.JSON(http.StatusOK, helpers.APIResponseSuccess("success", "ok"))
+	c.JSON(http.StatusOK, http2.APIResponseSuccess("success", "ok"))
 }

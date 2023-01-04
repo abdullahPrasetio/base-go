@@ -3,7 +3,7 @@ package log
 import (
 	"fmt"
 	"github.com/abdullahPrasetio/base-go/constants"
-	jsoniter "github.com/json-iterator/go"
+	"github.com/abdullahPrasetio/base-go/utils/json"
 	"net/http"
 	"os"
 	"time"
@@ -74,15 +74,15 @@ const (
 	folderOcp    = "logs/"
 )
 
-func LogRequest(username, trx_type string, request interface{}, header http.Header) {
+func LogRequest(httpMethod, trx_type string, request interface{}, header http.Header) {
 	timestamp := setLogFile()
 	logJSON.WithFields(log.Fields{
 		"service":        serviceName,
 		"http_type":      httpRequest,
+		"http_method":    httpMethod,
 		"request_header": header,
 		"request_body":   request,
 		"trx_type":       trx_type,
-		"username":       username,
 		"timestamp":      timestamp,
 	}).Info(httpRequest)
 
@@ -92,7 +92,7 @@ func setLogFile() string {
 	currentTime := time.Now()
 	timestamp := currentTime.Format(timeformat)
 	filename := folder + currentTime.Format(nameformat)
-	file, err := os.OpenFile(filename, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
+	file, err := os.OpenFile(filename, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0777)
 	if err != nil {
 		fmt.Println(err)
 	} else {
@@ -112,12 +112,11 @@ func setJSON() {
 func LogResponse(param param.LogResponseParam) {
 	timestamp := setLogFile()
 	logJSON.WithFields(log.Fields{
-		"username":        param.Username,
 		"third_party":     param.ThirdParty,
 		"service":         serviceName,
 		"http_type":       httpResponse,
 		"response_header": param.ResponseHeader,
-		"response_body":   minifyResponse(param.ResponseBody),
+		"response_body":   json.MinifyJson(param.ResponseBody),
 		"response_code":   param.ResponseCode,
 		"timestamp":       timestamp,
 	}).Info(httpResponse)
@@ -129,17 +128,4 @@ func setText() {
 	formatter.DisableTimestamp = true
 	formatter.DisableQuote = true
 	logText.SetFormatter(formatter)
-}
-
-func minifyResponse(r interface{}) map[string]interface{} {
-	js, _ := jsoniter.Marshal(r)
-	var m map[string]interface{}
-	_ = jsoniter.Unmarshal(js, &m)
-	for k, v := range m {
-		s := fmt.Sprintf("%v", v)
-		if len(s) > 10000 {
-			delete(m, k)
-		}
-	}
-	return m
 }

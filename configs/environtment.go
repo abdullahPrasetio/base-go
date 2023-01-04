@@ -26,6 +26,7 @@ type Config struct {
 	DB_HOST          string `mapstructure:"DB_HOST"`
 	DB_PORT          string `mapstructure:"DB_PORT"`
 	DB_DATABASE      string `mapstructure:"DB_DATABASE"`
+	TIME_LOCATION    string `mapstructure:"TIME_LOCATION"`
 }
 
 func LoadConfig(path string) (config Config, err error) {

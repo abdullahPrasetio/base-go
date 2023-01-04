@@ -3,8 +3,8 @@ package example
 import (
 	"context"
 	"database/sql"
-	"fmt"
 	sq "github.com/Masterminds/squirrel"
+	"github.com/abdullahPrasetio/base-go/configs"
 	"time"
 )
 
@@ -12,34 +12,89 @@ type repository struct {
 	db *sql.DB
 }
 
+var (
+	SQL         string
+	queryInsert sq.InsertBuilder
+	querySelect sq.SelectBuilder
+	err         error
+	arguments   []interface{}
+)
+
 type Repository interface {
-	Create(param RequestCreateEmployee, ctx context.Context) (Employee, error)
+	Create(param RequestEmployee) (Employee, error)
+	GetAll() ([]Employee, error)
 }
 
 func NewRepository(db *sql.DB) *repository {
 	return &repository{db}
 }
 
-func (r *repository) Create(param RequestCreateEmployee, ctx context.Context) (Employee, error) {
-	newctx, cancelfunc := context.WithTimeout(ctx, 5*time.Second)
-	defer cancelfunc()
-	var SQL string
-	var query sq.InsertBuilder
+func (r *repository) Create(param RequestEmployee) (Employee, error) {
 	var result Employee
+	location, err := time.LoadLocation(configs.Configs.TIME_LOCATION)
+	CreatedAt := time.Now().In(location).Format("2006-01-02 15:04:05")
+	newctx, cancelfunc := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancelfunc()
 
-	query = sq.Insert("employee").Columns("name", "age", "address", "created_at", "updated_at").
-		Values(param.Name, param.Age, param.Address)
-	SQL, _, err := query.ToSql()
-	res, err := r.db.ExecContext(newctx, SQL)
-
+	tx, err := r.db.Begin()
 	if err != nil {
 		return result, err
 	}
-	no, err := res.RowsAffected()
+	defer tx.Rollback()
+	queryInsert = sq.Insert("employee").Columns("name", "age", "address", "created_at", "updated_at").
+		Values(param.Name, param.Age, param.Address, CreatedAt, CreatedAt)
+	SQL, arguments, err = queryInsert.ToSql()
 	if err != nil {
 		return result, err
 	}
+	stmt, err := tx.Prepare(SQL)
+	if err != nil {
+		return result, err
+	}
+	defer stmt.Close()
+	res, err := stmt.ExecContext(newctx, arguments...)
+	if err != nil {
+		return result, err
+	}
+	err = tx.Commit()
+	result.Name = param.Name
+	result.Age = param.Age
+	result.Address = param.Address
+	result.CreatedAt = CreatedAt
+	result.UpdatedAt = CreatedAt
+	result.ID, _ = res.LastInsertId()
 
-	fmt.Println(no)
 	return result, nil
+}
+
+func (r *repository) GetByID(id string) (Employee, error) {
+	return Employee{}, nil
+}
+
+func (r *repository) GetAll() ([]Employee, error) {
+	var results []Employee
+	newctx, cancelfunc := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancelfunc()
+
+	querySelect = sq.Select("id", "name", "age", "address", "created_at", "updated_at").
+		From("employee").OrderBy("name")
+	SQL, arguments, err = querySelect.ToSql()
+	if err != nil {
+		return results, err
+	}
+	rows, err := r.db.QueryContext(newctx, SQL)
+	if err != nil {
+		return results, err
+	}
+	defer rows.Close()
+	for rows.Next() {
+		result := Employee{}
+		err := rows.Scan(&result.ID, &result.Name, &result.Age, &result.Address, &result.CreatedAt, &result.UpdatedAt)
+		if err != nil {
+			return results, err
+		}
+		results = append(results, result)
+	}
+
+	return results, nil
 }

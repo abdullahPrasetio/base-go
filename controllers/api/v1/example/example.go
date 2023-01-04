@@ -1,19 +1,22 @@
 package example
 
 import (
-	"fmt"
-	example2 "github.com/abdullahPrasetio/base-go/models/example"
+	model "github.com/abdullahPrasetio/base-go/models/example"
+	modellog "github.com/abdullahPrasetio/base-go/models/log"
+	resp "github.com/abdullahPrasetio/base-go/utils/http"
+	"github.com/abdullahPrasetio/base-go/utils/log"
 	formattervalidator "github.com/abdullahPrasetio/validation-formatter"
 	"github.com/gin-gonic/gin"
+	"github.com/gin-gonic/gin/binding"
 	"net/http"
 )
 
 type exampleController struct {
-	service            example2.Service
+	service            model.Service
 	validatorFormatter formattervalidator.ValidateFormatter
 }
 
-func NewController(service example2.Service, validatorFormatter formattervalidator.ValidateFormatter) *exampleController {
+func NewController(service model.Service, validatorFormatter formattervalidator.ValidateFormatter) *exampleController {
 	return &exampleController{
 		service:            service,
 		validatorFormatter: validatorFormatter,
@@ -21,13 +24,60 @@ func NewController(service example2.Service, validatorFormatter formattervalidat
 }
 
 func (h *exampleController) CreateEmploye(c *gin.Context) {
-	var input example2.RequestCreateEmployee
-	err := c.ShouldBindJSON(&input)
+	var input model.RequestEmployee
+	err := c.ShouldBindBodyWith(&input, binding.JSON)
+	param := modellog.LogResponseParam{
+		ThirdParty:     "",
+		ResponseCode:   "99",
+		ResponseBody:   "",
+		ResponseHeader: c.Writer.Header(),
+	}
 	if err != nil {
-		fmt.Println(err)
-		response := h.validatorFormatter.GetErrorMsgValidation(err)
-		fmt.Println(response)
+		res := h.validatorFormatter.GetErrorMsgValidation(err)
+		response := resp.APIResponseError("Error validate", "08", res)
+		param.ResponseBody = response
+		log.LogResponse(param)
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
+	result, err := h.service.Create(input)
+	if err != nil {
+		response := resp.APIResponseError("Error to create Employee", "99", err)
+		param.ResponseBody = response
+		log.LogResponse(param)
+		log.Logger.Error(err)
+		c.JSON(http.StatusBadRequest, response)
+		return
+	}
+
+	response := resp.APIResponseSuccess("Successfully created Employee", result)
+	param.ResponseBody = response
+	log.Logger.Info("Successfully created employee")
+	log.LogResponse(param)
+	c.JSON(http.StatusOK, response)
+	return
+}
+
+func (h *exampleController) GetAllEmployees(c *gin.Context) {
+	param := modellog.LogResponseParam{
+		ThirdParty:     "",
+		ResponseCode:   "99",
+		ResponseBody:   "",
+		ResponseHeader: c.Writer.Header(),
+	}
+	result, err := h.service.GetAll()
+	if err != nil {
+		response := resp.APIResponseError("Error to get Employee", "99", err)
+		param.ResponseBody = response
+		log.LogResponse(param)
+		log.Logger.Error(err)
+		c.JSON(http.StatusBadRequest, response)
+		return
+	}
+	response := resp.APIResponseSuccess("Successfully get Employee", result)
+	param.ResponseBody = response
+	log.Logger.Info("Successfully get employee")
+	log.LogResponse(param)
+	c.JSON(http.StatusOK, response)
+	return
 }
