@@ -1,5 +1,14 @@
 package http
 
+/********************************************************************************
+* Temancode Example Response Package                                            *
+*                                                                               *
+* Version: 1.0.0                                                                *
+* Date:    2023-01-05                                                           *
+* Author:  Waluyo Ade Prasetio                                                  *
+* Github:  https://github.com/abdullahPrasetio                                  *
+********************************************************************************/
+
 type Response struct {
 	ResponseCode   string      `json:"responseCode"`
 	ResponseDesc   string      `json:"responseDesc"`

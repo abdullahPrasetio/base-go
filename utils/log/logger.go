@@ -1,14 +1,24 @@
 package log
 
+/********************************************************************************
+* Temancode Example Log Package                                                 *
+*                                                                               *
+* Version: 1.0.0                                                                *
+* Date:    2023-01-05                                                           *
+* Author:  Waluyo Ade Prasetio                                                  *
+* Github:  https://github.com/abdullahPrasetio                                  *
+********************************************************************************/
+
 import (
 	"fmt"
-	"github.com/abdullahPrasetio/base-go/constants"
-	"github.com/abdullahPrasetio/base-go/utils/json"
 	"net/http"
 	"os"
 	"time"
 
 	"github.com/abdullahPrasetio/base-go/configs"
+	"github.com/abdullahPrasetio/base-go/constants"
+	"github.com/abdullahPrasetio/base-go/utils/json"
+
 	param "github.com/abdullahPrasetio/base-go/models/log"
 	log "github.com/sirupsen/logrus"
 )
@@ -22,9 +32,9 @@ var (
 )
 
 func init() {
+	// config, _ := configs.LoadConfig(".")
 	setText()
 	setJSON()
-
 	config := configs.Configs
 	if config.DEBUG {
 		logText.SetLevel(log.DebugLevel)
@@ -92,7 +102,7 @@ func setLogFile() string {
 	currentTime := time.Now()
 	timestamp := currentTime.Format(timeformat)
 	filename := folder + currentTime.Format(nameformat)
-	file, err := os.OpenFile(filename, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0777)
+	file, err := os.OpenFile(filename, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
 	if err != nil {
 		fmt.Println(err)
 	} else {

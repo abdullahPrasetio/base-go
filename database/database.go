@@ -1,16 +1,28 @@
 package database
 
+/********************************************************************************
+* Temancode Database Package           			                                *
+*                                                                               *
+* Version: 1.0.0                                                                *
+* Date:    2023-01-05                                                           *
+* Author:  Waluyo Ade Prasetio                                                  *
+* Github:  https://github.com/abdullahPrasetio                                  *
+********************************************************************************/
+
 import (
 	"database/sql"
 	"fmt"
+	"time"
+
 	"github.com/abdullahPrasetio/base-go/configs"
 	"github.com/abdullahPrasetio/base-go/utils/log"
-	"time"
 
 	_ "github.com/go-sql-driver/mysql"
 )
 
 func loadDbConfig() (string, error) {
+
+	// config, _ := configs.LoadConfig(".")
 	config := configs.Configs
 	if config.DB_HOST == "" {
 		return "", fmt.Errorf("Environment variable DB_HOST must be set")

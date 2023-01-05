@@ -1,6 +1,17 @@
 package example
 
+/********************************************************************************
+* Temancode Example Controller Package                                          *
+*                                                                               *
+* Version: 1.0.0                                                                *
+* Date:    2023-01-05                                                           *
+* Author:  Waluyo Ade Prasetio                                                  *
+* Github:  https://github.com/abdullahPrasetio                                  *
+********************************************************************************/
+
 import (
+	"net/http"
+
 	model "github.com/abdullahPrasetio/base-go/models/example"
 	modellog "github.com/abdullahPrasetio/base-go/models/log"
 	resp "github.com/abdullahPrasetio/base-go/utils/http"
@@ -8,7 +19,6 @@ import (
 	formattervalidator "github.com/abdullahPrasetio/validation-formatter"
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
-	"net/http"
 )
 
 type exampleController struct {

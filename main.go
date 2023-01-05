@@ -1,15 +1,26 @@
 package main
 
+/********************************************************************************
+* Temancode Main Package                       		  	                        *
+*                                                                               *
+* Version: 1.0.0                                                                *
+* Date:    2023-01-05                                                           *
+* Author:  Waluyo Ade Prasetio                                                  *
+* Github:  https://github.com/abdullahPrasetio                                  *
+********************************************************************************/
+
 import (
 	"context"
 	"fmt"
-	"github.com/abdullahPrasetio/base-go/configs"
-	"github.com/abdullahPrasetio/base-go/utils/log"
 	"net/http"
 	"os"
 	"os/signal"
 	"syscall"
 	"time"
+
+	"github.com/abdullahPrasetio/base-go/configs"
+	"github.com/abdullahPrasetio/base-go/constants"
+	"github.com/abdullahPrasetio/base-go/utils/log"
 
 	"github.com/abdullahPrasetio/base-go/routers"
 	"github.com/gin-gonic/gin"
@@ -17,12 +28,12 @@ import (
 
 func init() {
 	config, _ := configs.LoadConfig(".")
-	log.LoadLogger()
 	gin.SetMode(config.GIN_MODE)
 }
 
 func main() {
 	config := configs.Configs
+	log.LoadLogger()
 	log := log.Logger
 	router := routers.SetupRouter()
 	srv := &http.Server{
@@ -35,6 +46,8 @@ func main() {
 
 	go func() {
 		log.Info("about to start the application...")
+
+		fmt.Println("Server run in url : http://localhost:" + constants.ServerPort)
 		if err := srv.ListenAndServe(); err != nil {
 			panic(err)
 		}

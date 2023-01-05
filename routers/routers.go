@@ -1,7 +1,18 @@
 package routers
 
+/********************************************************************************
+* Temancode Example Routers Package                                             *
+*                                                                               *
+* Version: 1.0.0                                                                *
+* Date:    2023-01-05                                                           *
+* Author:  Waluyo Ade Prasetio                                                  *
+* Github:  https://github.com/abdullahPrasetio                                  *
+********************************************************************************/
+
 import (
 	"database/sql"
+	"net/http"
+
 	"github.com/abdullahPrasetio/base-go/constants"
 	"github.com/abdullahPrasetio/base-go/database"
 	"github.com/abdullahPrasetio/base-go/library/newvalidator"
@@ -11,7 +22,7 @@ import (
 	formatter "github.com/abdullahPrasetio/validation-formatter"
 	formatterLang "github.com/abdullahPrasetio/validation-formatter/lang"
 	"github.com/gin-gonic/gin/binding"
-	"net/http"
+
 	//formattervalidator "github.com/abdullahPrasetio/validation-formatter"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -30,7 +41,6 @@ func SetupRouter() *gin.Engine {
 	db, err := database.GetConnection()
 	if err != nil {
 		log.Logger.Info("Error connecting to database...")
-		panic(err)
 	}
 	binding.Validator = new(newvalidator.DefaultValidator)
 	r := routes{

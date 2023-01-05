@@ -1,13 +1,23 @@
 package middleware
 
+/********************************************************************************
+* Temancode Example Write Log Request Package                                   *
+*                                                                               *
+* Version: 1.0.0                                                                *
+* Date:    2023-01-05                                                           *
+* Author:  Waluyo Ade Prasetio                                                  *
+* Github:  https://github.com/abdullahPrasetio                                  *
+********************************************************************************/
+
 import (
 	"bytes"
 	"encoding/json"
+	"io"
+	"io/ioutil"
+
 	json2 "github.com/abdullahPrasetio/base-go/utils/json"
 	"github.com/abdullahPrasetio/base-go/utils/log"
 	"github.com/gin-gonic/gin"
-	"io"
-	"io/ioutil"
 )
 
 func WriteRequestLog() gin.HandlerFunc {

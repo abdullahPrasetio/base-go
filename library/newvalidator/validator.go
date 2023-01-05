@@ -1,13 +1,23 @@
 package newvalidator
 
+/********************************************************************************
+* Temancode Binding Validator  Package                                          *
+*                                                                               *
+* Version: 1.0.0                                                                *
+* Date:    2022-12-28                                                           *
+* Author:  Waluyo Ade Prasetio                                                  *
+* Github:  https://github.com/abdullahPrasetio                                  *
+********************************************************************************/
+
 import (
 	"fmt"
-	formatter "github.com/abdullahPrasetio/validation-formatter"
-	"github.com/gin-gonic/gin/binding"
-	"github.com/go-playground/validator/v10"
 	"reflect"
 	"strings"
 	"sync"
+
+	formatter "github.com/abdullahPrasetio/validation-formatter"
+	"github.com/gin-gonic/gin/binding"
+	"github.com/go-playground/validator/v10"
 )
 
 type DefaultValidator struct {

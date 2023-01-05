@@ -1,12 +1,22 @@
 package http
 
+/********************************************************************************
+* Temancode Example Request Http Package                                        *
+*                                                                               *
+* Version: 1.0.0                                                                *
+* Date:    2023-01-05                                                           *
+* Author:  Waluyo Ade Prasetio                                                  *
+* Github:  https://github.com/abdullahPrasetio                                  *
+********************************************************************************/
+
 import (
 	"bytes"
-	"github.com/abdullahPrasetio/base-go/configs"
-	"github.com/abdullahPrasetio/base-go/utils/log"
 	"io/ioutil"
 	"net/http"
 	"time"
+
+	"github.com/abdullahPrasetio/base-go/configs"
+	"github.com/abdullahPrasetio/base-go/utils/log"
 )
 
 type Headers struct {
@@ -15,11 +25,9 @@ type Headers struct {
 }
 
 func Client_Req(h []Headers, uri string, m string, d []byte) ([]byte, error) {
-	//btr_timeout, _ := strconv.Atoi(os.Getenv("BTR_TO"))
 	config := configs.Configs
 	client := &http.Client{Timeout: time.Second * time.Duration(config.TIMEOUT_REQ)}
 	logger := log.Logger
-	//l.Info("REQ", zap.Any("body", string(d)))
 	logger.Info(string(d))
 	req, err := http.NewRequest(m, uri, bytes.NewReader(d))
 	if err != nil {
@@ -36,21 +44,6 @@ func Client_Req(h []Headers, uri string, m string, d []byte) ([]byte, error) {
 		}
 	}
 
-	//reqDump, err := httputil.DumpRequestOut(req, true)
-	//if err != nil {
-	//	log.Fatal(err)
-	//}
-	//bodies, err := ioutil.ReadAll(req.Body)
-	//if err != nil {
-	//	panic(err)
-	//}
-	//
-	//fmt.Printf("%s", bodies)
-	//
-	//fmt.Printf("REQUEST:\n%s", string(reqDump))
-	//fmt.Println()
-
-	//log.Println(req.Header)
 	resp, err := client.Do(req)
 	if err != nil {
 		return nil, err

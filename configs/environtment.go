@@ -1,14 +1,23 @@
 package configs
 
+/********************************************************************************
+* Temancode Load Config Package			                                        *
+*                                                                               *
+* Version: 1.0.0                                                                *
+* Date:    2023-01-05                                                           *
+* Author:  Waluyo Ade Prasetio                                                  *
+* Github:  https://github.com/abdullahPrasetio                                  *
+********************************************************************************/
+
 import (
 	"github.com/spf13/viper"
 )
 
-var Configs *Config
+var Configs Config
 
-func init() {
-	LoadConfig(".")
-}
+// func init() {
+// 	LoadConfig(".")
+// }
 
 type Config struct {
 	APP_NAME         string `mapstructure:"APP_NAME"`
@@ -39,6 +48,6 @@ func LoadConfig(path string) (config Config, err error) {
 		return
 	}
 	err = viper.Unmarshal(&config)
-	Configs = &config
+	Configs = config
 	return
 }
