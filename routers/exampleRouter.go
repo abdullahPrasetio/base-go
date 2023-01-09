@@ -22,5 +22,6 @@ func (r *routes) addExampleRoute(rg *gin.RouterGroup) {
 
 	example := rg.Group("example")
 	example.POST("/create", controller.CreateEmploye)
-	example.GET("", controller.GetAllEmployees)
+	example.GET("/", controller.GetAllEmployees)
+	example.GET("/from-api", controller.GetFromApi)
 }

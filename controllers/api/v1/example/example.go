@@ -91,3 +91,27 @@ func (h *exampleController) GetAllEmployees(c *gin.Context) {
 	c.JSON(http.StatusOK, response)
 	return
 }
+
+func (h *exampleController) GetFromApi(c *gin.Context) {
+	param := modellog.LogResponseParam{
+		ThirdParty:     "",
+		ResponseCode:   "99",
+		ResponseBody:   "",
+		ResponseHeader: c.Writer.Header(),
+	}
+	result, err := h.service.GetFromApi()
+	if err != nil {
+		response := resp.APIResponseError("Error to get Employee", "99", err)
+		param.ResponseBody = response
+		log.LogResponse(param)
+		log.Logger.Error(err)
+		c.JSON(http.StatusBadRequest, response)
+		return
+	}
+	response := resp.APIResponseSuccess("Successfully get Employee", result)
+	param.ResponseBody = response
+	log.Logger.Info("Successfully get employee")
+	log.LogResponse(param)
+	c.JSON(http.StatusOK, response)
+	return
+}

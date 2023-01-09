@@ -1,5 +1,11 @@
 package example
 
+import (
+	"encoding/json"
+
+	"github.com/abdullahPrasetio/base-go/utils/http"
+)
+
 /********************************************************************************
 * Temancode Example Service Package                                             *
 *                                                                               *
@@ -15,6 +21,7 @@ type service struct {
 type Service interface {
 	Create(input RequestEmployee) (Employee, error)
 	GetAll() ([]Employee, error)
+	GetFromApi() ([]Employee, error)
 }
 
 func NewService(repo Repository) *service {
@@ -39,4 +46,34 @@ func (s *service) GetAll() ([]Employee, error) {
 		return results, err
 	}
 	return results, nil
+}
+
+type ResponseBodyData struct {
+	ResponseCode  string     `json:"responseCode"`
+	ResponseDesc  string     `json:"responseDesc"`
+	ResponseData  []Employee `json:"responseData"`
+	ResponseError string     `json:"responseError"`
+}
+
+func (s *service) GetFromApi() ([]Employee, error) {
+	var err error
+	var results []Employee
+
+	var responseBody ResponseBodyData
+
+	headers := []http.Headers{
+		{
+			Key:   "Content-Type",
+			Value: "Application/json",
+		},
+	}
+	reqBody := []byte{}
+	res, err := http.Client_Req(headers, "https://mocki.io/v1/40d9df6f-5599-444d-99f0-815529ccae18", "GET", reqBody)
+	if err != nil {
+		return results, err
+	}
+
+	err = json.Unmarshal(res, &responseBody)
+
+	return responseBody.ResponseData, nil
 }
