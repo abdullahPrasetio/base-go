@@ -18,7 +18,7 @@ import (
 func (r *routes) addExampleRoute(rg *gin.RouterGroup) {
 	repository := example2.NewRepository(r.db)
 	service := example2.NewService(repository)
-	controller := example.NewController(service, r.validatorFormatter)
+	controller := example.NewController(service, r.validatorFormatter, r.validate)
 
 	example := rg.Group("example")
 	example.POST("/create", controller.CreateEmploye)

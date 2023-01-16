@@ -19,17 +19,20 @@ import (
 	formattervalidator "github.com/abdullahPrasetio/validation-formatter"
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
+	"github.com/go-playground/validator/v10"
 )
 
 type exampleController struct {
 	service            model.Service
 	validatorFormatter formattervalidator.ValidateFormatter
+	validate           *validator.Validate
 }
 
-func NewController(service model.Service, validatorFormatter formattervalidator.ValidateFormatter) *exampleController {
+func NewController(service model.Service, validatorFormatter formattervalidator.ValidateFormatter, validate *validator.Validate) *exampleController {
 	return &exampleController{
 		service:            service,
 		validatorFormatter: validatorFormatter,
+		validate:           validate,
 	}
 }
 

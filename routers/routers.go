@@ -22,6 +22,7 @@ import (
 	formatter "github.com/abdullahPrasetio/validation-formatter"
 	formatterLang "github.com/abdullahPrasetio/validation-formatter/lang"
 	"github.com/gin-gonic/gin/binding"
+	"github.com/go-playground/validator/v10"
 
 	//formattervalidator "github.com/abdullahPrasetio/validation-formatter"
 	"github.com/gin-contrib/cors"
@@ -32,6 +33,7 @@ type routes struct {
 	router             *gin.Engine
 	db                 *sql.DB
 	validatorFormatter formatter.ValidateFormatter
+	validate           *validator.Validate
 }
 
 func SetupRouter() *gin.Engine {
@@ -47,6 +49,7 @@ func SetupRouter() *gin.Engine {
 		router:             gin.Default(),
 		db:                 db,
 		validatorFormatter: newvalidate,
+		validate:           formatter.Validate,
 	}
 	// Memasang middleware bawaan gin
 	r.router.Use(gin.Logger())   // Logger

@@ -32,12 +32,11 @@ func init() {
 }
 
 func main() {
-	config := configs.Configs
 	log.LoadLogger()
 	log := log.Logger
 	router := routers.SetupRouter()
 	srv := &http.Server{
-		Addr: fmt.Sprintf("0.0.0.0:%s", config.PORT),
+		Addr: fmt.Sprintf("0.0.0.0:%s", constants.ServerPort),
 		// Good practice to set timeouts to avoid Slowloris attacks.
 		WriteTimeout: 60 * time.Second,
 		ReadTimeout:  60 * time.Second,
