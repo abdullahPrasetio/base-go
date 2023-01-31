@@ -13,7 +13,7 @@ import (
 	"github.com/spf13/viper"
 )
 
-var Configs Config
+var Configs *Config
 
 // func init() {
 // 	LoadConfig(".")
@@ -48,6 +48,6 @@ func LoadConfig(path string) (config Config, err error) {
 		return
 	}
 	err = viper.Unmarshal(&config)
-	Configs = config
+	Configs = &config
 	return
 }

@@ -11,6 +11,7 @@ package routers
 
 import (
 	"database/sql"
+	"errors"
 	"net/http"
 
 	"github.com/abdullahPrasetio/base-go/constants"
@@ -57,6 +58,9 @@ func SetupRouter() *gin.Engine {
 	r.router.Use(cors.Default())
 	api := r.router.Group(constants.ServerDefaultRoute, middleware.WriteRequestLog(), middleware.AddDefaultHeader())
 	r.addExampleRoute(api)
+	r.router.NoRoute(func(c *gin.Context) {
+		c.JSON(404, http2.APIResponseError("Page Not Found", constants.ErrorNotFound, errors.New("Page Not Found").Error()))
+	})
 	api.GET("/healtz", checkHealtz)
 	return r.router
 }

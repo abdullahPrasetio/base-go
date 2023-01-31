@@ -32,10 +32,12 @@ var (
 )
 
 func init() {
-	// config, _ := configs.LoadConfig(".")
+	config, _ := configs.LoadConfig(".")
 	setText()
 	setJSON()
-	config := configs.Configs
+	// config := configs.Configs
+	// fmt.Println("debug", config.DEBUG)
+	// fmt.Println("config", config)
 	if config.DEBUG {
 		logText.SetLevel(log.DebugLevel)
 		logJSON.SetLevel(log.DebugLevel)
@@ -49,6 +51,14 @@ func init() {
 	}
 
 	serviceName = constants.ServerName
+}
+
+func LogDebug(refnum, msg string) {
+	timestamp := setLogFile()
+	// fmt.Println("refnumm", refnum)
+	// fmt.Println("msg", msg)
+	// fmt.Println("timestamp", timestamp)
+	logText.Debug(fmt.Sprintf("%s [%s] %s", timestamp, refnum, msg))
 }
 
 func LoadLogger() {

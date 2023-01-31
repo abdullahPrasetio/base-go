@@ -29,10 +29,11 @@ import (
 func init() {
 	config, _ := configs.LoadConfig(".")
 	gin.SetMode(config.GIN_MODE)
+
+	log.LoadLogger()
 }
 
 func main() {
-	log.LoadLogger()
 	log := log.Logger
 	router := routers.SetupRouter()
 	srv := &http.Server{

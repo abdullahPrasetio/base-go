@@ -1,7 +1,9 @@
 package example
 
 import (
+	"context"
 	"encoding/json"
+	"fmt"
 
 	"github.com/abdullahPrasetio/base-go/utils/http"
 )
@@ -21,7 +23,7 @@ type service struct {
 type Service interface {
 	Create(input RequestEmployee) (Employee, error)
 	GetAll() ([]Employee, error)
-	GetFromApi() ([]Employee, error)
+	GetFromApi(ctx context.Context) ([]Employee, error)
 }
 
 func NewService(repo Repository) *service {
@@ -55,7 +57,7 @@ type ResponseBodyData struct {
 	ResponseError string     `json:"responseError"`
 }
 
-func (s *service) GetFromApi() ([]Employee, error) {
+func (s *service) GetFromApi(ctx context.Context) ([]Employee, error) {
 	var err error
 	var results []Employee
 
@@ -68,7 +70,8 @@ func (s *service) GetFromApi() ([]Employee, error) {
 		},
 	}
 	reqBody := []byte{}
-	res, err := http.Client_Req(headers, "https://mocki.io/v1/40d9df6f-5599-444d-99f0-815529ccae18", "GET", reqBody)
+	res, respHeaders, err := http.Client_Req(ctx, headers, "https://mocki.io/v1/40d9df6f-5599-444d-99f0-815529ccae18", "GET", reqBody)
+	fmt.Println(respHeaders)
 	if err != nil {
 		return results, err
 	}

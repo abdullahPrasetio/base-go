@@ -102,7 +102,7 @@ func (h *exampleController) GetFromApi(c *gin.Context) {
 		ResponseBody:   "",
 		ResponseHeader: c.Writer.Header(),
 	}
-	result, err := h.service.GetFromApi()
+	result, err := h.service.GetFromApi(c)
 	if err != nil {
 		response := resp.APIResponseError("Error to get Employee", "99", err)
 		param.ResponseBody = response
@@ -111,6 +111,7 @@ func (h *exampleController) GetFromApi(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, response)
 		return
 	}
+	c.Set("refnum", "Halo")
 	response := resp.APIResponseSuccess("Successfully get Employee", result)
 	param.ResponseBody = response
 	log.Logger.Info("Successfully get employee")
