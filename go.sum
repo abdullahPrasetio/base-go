@@ -42,6 +42,8 @@ github.com/Masterminds/squirrel v1.5.3 h1:YPpoceAcxuzIljlr5iWpNKaql7hLeG1KLSrhvd
 github.com/Masterminds/squirrel v1.5.3/go.mod h1:NNaOrjSoIDfDA40n7sr2tPNZRfjzjA400rg+riTZj10=
 github.com/abdullahPrasetio/validation-formatter v1.0.0 h1:0uLeQ643tWYBaEIon8Gc96N7xM6pe9i1acFRrpGVxuw=
 github.com/abdullahPrasetio/validation-formatter v1.0.0/go.mod h1:NrXtVTXwgHdERAe2hTyucyL1PE/UojUttqZikanLLow=
+github.com/abdullahPrasetio/validation-formatter v1.0.2 h1:LHmHke0xSlh+fCfmKu8PHH8n1nXYJ0Dd3kDMWfrqynU=
+github.com/abdullahPrasetio/validation-formatter v1.0.2/go.mod h1:NrXtVTXwgHdERAe2hTyucyL1PE/UojUttqZikanLLow=
 github.com/census-instrumentation/opencensus-proto v0.2.1/go.mod h1:f6KPmirojxKA12rnyqOA5BBL4O983OfeGPqjHWSTneU=
 github.com/chzyer/logex v1.1.10/go.mod h1:+Ywpsq7O8HXn0nuIou7OrIPyXbp3wmkHB+jjWRnGsAI=
 github.com/chzyer/readline v0.0.0-20180603132655-2972be24d48e/go.mod h1:nSuG5e5PlCu98SY8svDHJxuZscDgtXS6KTTbou5AhLI=
