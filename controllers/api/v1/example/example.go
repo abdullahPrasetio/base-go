@@ -10,6 +10,7 @@ package example
 ********************************************************************************/
 
 import (
+	"fmt"
 	"net/http"
 
 	model "github.com/abdullahPrasetio/base-go/models/example"
@@ -46,6 +47,8 @@ func (h *exampleController) CreateEmploye(c *gin.Context) {
 		ResponseHeader: c.Writer.Header(),
 	}
 	if err != nil {
+		fmt.Println("error")
+		fmt.Println(err.Error())
 		res := h.validatorFormatter.GetErrorMsgValidation(err)
 		response := resp.APIResponseError("Error validate", "08", res)
 		param.ResponseBody = response
