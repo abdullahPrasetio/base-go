@@ -17,7 +17,6 @@ type RequestEmployee struct {
 	Name    string `json:"name" binding:"required"`
 	Age     int    `json:"age" binding:"required"`
 	Address string `json:"address" binding:"required"`
-	//Date    string `json:"date" binding:"required,date=yyyy-mm-dd"`
 }
 
 type GetCampaignDetailInput struct {
