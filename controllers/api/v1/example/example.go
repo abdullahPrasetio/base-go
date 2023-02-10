@@ -10,7 +10,6 @@ package example
 ********************************************************************************/
 
 import (
-	"fmt"
 	"net/http"
 
 	model "github.com/abdullahPrasetio/base-go/models/example"
@@ -46,9 +45,12 @@ func (h *exampleController) CreateEmploye(c *gin.Context) {
 		ResponseBody:   "",
 		ResponseHeader: c.Writer.Header(),
 	}
+	// New Version
+	// err = errors.New("test internal error not found")
+	// exceptions.PanicIfError(err)
+	// exceptions.PanicIfErrorNotFound(err)
+
 	if err != nil {
-		fmt.Println("error")
-		fmt.Println(err.Error())
 		res := h.validatorFormatter.GetErrorMsgValidation(err)
 		response := resp.APIResponseError("Error validate", "08", res)
 		param.ResponseBody = response

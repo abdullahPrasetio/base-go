@@ -16,6 +16,7 @@ import (
 
 	sq "github.com/Masterminds/squirrel"
 	"github.com/abdullahPrasetio/base-go/configs"
+	"github.com/abdullahPrasetio/base-go/exceptions"
 )
 
 type repository struct {
@@ -47,6 +48,7 @@ func (r *repository) Create(param RequestEmployee) (Employee, error) {
 	defer cancelfunc()
 
 	tx, err := r.db.Begin()
+	exceptions.PanicIfErrorQuery(err)
 	if err != nil {
 		return result, err
 	}

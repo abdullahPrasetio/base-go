@@ -16,6 +16,7 @@ import (
 
 	"github.com/abdullahPrasetio/base-go/constants"
 	"github.com/abdullahPrasetio/base-go/database"
+	"github.com/abdullahPrasetio/base-go/exceptions"
 	"github.com/abdullahPrasetio/base-go/library/newvalidator"
 	"github.com/abdullahPrasetio/base-go/middleware"
 	http2 "github.com/abdullahPrasetio/base-go/utils/http"
@@ -53,8 +54,8 @@ func SetupRouter() *gin.Engine {
 		validate:           formatter.Validate,
 	}
 	// Memasang middleware bawaan gin
-	r.router.Use(gin.Logger())   // Logger
-	r.router.Use(gin.Recovery()) // Jika error panic maka akan recover
+	r.router.Use(gin.Logger())                                        // Logger
+	r.router.Use(gin.CustomRecovery(exceptions.ErrorHandlerRecovery)) // Jika error panic maka akan recover
 	r.router.Use(cors.Default())
 	api := r.router.Group(constants.ServerDefaultRoute, middleware.WriteRequestLog(), middleware.AddDefaultHeader())
 	r.addExampleRoute(api)

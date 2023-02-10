@@ -45,6 +45,7 @@ func (s *service) GetAll() ([]Employee, error) {
 	var results []Employee
 	results, err = s.repository.GetAll()
 	if err != nil {
+		panic(err)
 		return results, err
 	}
 	return results, nil
