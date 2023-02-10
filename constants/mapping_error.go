@@ -4,6 +4,7 @@ const (
 	ErrorValidate     = "03"
 	ErrorNotFound     = "05"
 	ErrorDB           = "15"
+	ErrorQueryDB      = "16"
 	ErrorThirdParty   = "20"
 	ErrorGeneral      = "99"
 	Success           = "00"
@@ -15,6 +16,7 @@ var mappingError = map[string]string{
 	"05":  "Data Not Found",
 	"404": "Page Not Found",
 	"15":  "DB connection error",
+	"16":  "DB Query error",
 	"20":  "Third Party Error",
 	"99":  "General Error",
 }
