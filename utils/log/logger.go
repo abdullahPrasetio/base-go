@@ -46,7 +46,7 @@ func init() {
 		logJSON.SetLevel(log.InfoLevel)
 	}
 
-	if config.APP_ENV != "development" {
+	if config.APP_ENV != "local" {
 		folder = folderOcp
 	}
 
