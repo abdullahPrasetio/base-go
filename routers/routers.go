@@ -62,7 +62,7 @@ func SetupRouter() *gin.Engine {
 	r.router.NoRoute(func(c *gin.Context) {
 		c.JSON(404, http2.APIResponseError("Page Not Found", constants.ErrorNotFound, errors.New("Page Not Found").Error()))
 	})
-	api.GET("/healtz", checkHealtz)
+	r.router.GET("/healthz", checkHealtz)
 	return r.router
 }
 
