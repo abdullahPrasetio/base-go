@@ -50,6 +50,9 @@ cd app
 docker build -t <youruser>/micro-${name}:${version} .
 ```
 
+## Contributors
+
+[![Contributors](https://contrib.rocks/image?repo=abdullahPrasetio/base-go)](https://github.com/abdullahPrasetio/base-go/graphs/contributors)
 
 ## License
 
