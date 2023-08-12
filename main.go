@@ -11,6 +11,7 @@ package main
 
 import (
 	"context"
+	"flag"
 	"fmt"
 	"net/http"
 	"os"
@@ -26,18 +27,26 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+var Port string
+
 func init() {
 	config, _ := configs.LoadConfig(".")
 	gin.SetMode(config.GIN_MODE)
 
 	log.LoadLogger()
+	flag.StringVar(&Port, "port", "80", "help message for port")
 }
 
 func main() {
 	log := log.Logger
 	router := routers.SetupRouter()
+	flag.Parse()
+	port := Port
+	if port == "80" {
+		port = constants.ServerPort
+	}
 	srv := &http.Server{
-		Addr: fmt.Sprintf("0.0.0.0:%s", constants.ServerPort),
+		Addr: fmt.Sprintf("0.0.0.0:%s", port),
 		// Good practice to set timeouts to avoid Slowloris attacks.
 		WriteTimeout: 60 * time.Second,
 		ReadTimeout:  60 * time.Second,
@@ -47,7 +56,7 @@ func main() {
 	go func() {
 		log.Info("about to start the application...")
 
-		fmt.Println("Server run in url : http://localhost:" + constants.ServerPort)
+		fmt.Println("Server run in url : http://localhost:" + port)
 		if err := srv.ListenAndServe(); err != nil {
 			panic(err)
 		}
