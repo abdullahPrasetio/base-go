@@ -11,10 +11,15 @@ Base ini digunakan untuk menjalankan service yang menghasilkan Rest API
 - Validation Rest API
 - ✨Magic ✨ Code
 
+
+## New Features
+* Custom Port Run main.go
+
 ## Features
 
 - Custom Validation with go playground validator.
 - Custom Logger request and response api.
+- Custom Port with flag --port
 
 ## Tech
 
@@ -36,6 +41,10 @@ cd my base
 go run main.go
 ```
 
+Run With custom port and default port is 8025
+```sh
+go run main.go --port 8000
+```
 
 ## Docker
 
