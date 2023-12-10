@@ -36,6 +36,9 @@ type Config struct {
 	DB_PORT          string `mapstructure:"DB_PORT"`
 	DB_DATABASE      string `mapstructure:"DB_DATABASE"`
 	TIME_LOCATION    string `mapstructure:"TIME_LOCATION"`
+	REDIS_HOST       string `mapstructure:"REDIS_HOST"`
+	REDIS_DB_QUEUE   string `mapstructure:"REDIS_DB_QUEUE"`
+	REDIS_PASSWORD   string `mapstructure:"REDIS_PASSWORD"`
 }
 
 func LoadConfig(path string) (config Config, err error) {

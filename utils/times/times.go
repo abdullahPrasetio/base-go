@@ -20,6 +20,11 @@ type timeNow struct {
 	ValueString string
 }
 
+type TimeNow struct {
+	ValueTime   time.Time
+	ValueString string
+}
+
 func GetTimeNow(format string) timeNow {
 	config := configs.Configs
 	defaultformat := "2006-01-02 15:04:05"

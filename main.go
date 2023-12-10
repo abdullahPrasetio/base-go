@@ -13,6 +13,8 @@ import (
 	"context"
 	"flag"
 	"fmt"
+	//"github.com/abdullahPrasetio/base-go/scheduler"
+	//"github.com/abdullahPrasetio/base-go/workers"
 	"net/http"
 	"os"
 	"os/signal"
@@ -61,6 +63,12 @@ func main() {
 			panic(err)
 		}
 	}()
+
+	// Worker scheduller
+	//go workers.ProcessTimeScheduller()
+
+	// Run scheduller
+	//go scheduler.NewPrintTimeScheduller()
 
 	// ====== Mematikan server secara gracefull ======
 
