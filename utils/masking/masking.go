@@ -11,16 +11,15 @@ package masking
 
 func Masking(text string, start int, end int) string {
 	newText := ""
-	var value string
-	ends := len(text) - (end + 1)
-	for i, r := range text {
-		value = string(r)
-		if i >= start && i <= ends {
-
-			value = "*"
-		}
-		newText += value
+	if start == 0 && end == 1 {
+		return text
 	}
-
+	for i, r := range text {
+		if i >= start && i <= end {
+			newText += "*"
+		} else {
+			newText += string(r)
+		}
+	}
 	return newText
 }

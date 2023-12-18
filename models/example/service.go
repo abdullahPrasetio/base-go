@@ -2,10 +2,6 @@ package example
 
 import (
 	"context"
-	"encoding/json"
-	"fmt"
-
-	"github.com/abdullahPrasetio/base-go/utils/http"
 )
 
 /********************************************************************************
@@ -26,7 +22,7 @@ type Service interface {
 	GetFromApi(ctx context.Context) ([]Employee, error)
 }
 
-func NewService(repo Repository) *service {
+func NewService(repo Repository) Service {
 	return &service{repository: repo}
 }
 
@@ -59,25 +55,27 @@ type ResponseBodyData struct {
 }
 
 func (s *service) GetFromApi(ctx context.Context) ([]Employee, error) {
-	var err error
-	var results []Employee
+	//var err error
+	//var results []Employee
 
 	var responseBody ResponseBodyData
 
-	headers := []http.Headers{
-		{
-			Key:   "Content-Type",
-			Value: "Application/json",
-		},
-	}
-	reqBody := []byte{}
-	res, respHeaders, err := http.Client_Req(ctx, headers, "https://mocki.io/v1/40d9df6f-5599-444d-99f0-815529ccae18", "GET", reqBody)
-	fmt.Println(respHeaders)
-	if err != nil {
-		return results, err
-	}
-
-	err = json.Unmarshal(res, &responseBody)
+	//headers := []http.Headers{
+	//	{
+	//		Key:   "Content-Type",
+	//		Value: "Application/json",
+	//	},
+	//}
+	//reqBody := []byte{}
+	//
+	//client := &http2.Client{Timeout: 3 * time.Second}
+	//res, respHeaders, err := http.Client_Req(ctx, client, headers, "https://mocki.io/v1/40d9df6f-5599-444d-99f0-815529ccae18", "GET", reqBody)
+	//fmt.Println(respHeaders)
+	//if err != nil {
+	//	return results, err
+	//}
+	//
+	//err = json.Unmarshal(res, &responseBody)
 
 	return responseBody.ResponseData, nil
 }

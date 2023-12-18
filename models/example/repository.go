@@ -36,7 +36,7 @@ type Repository interface {
 	GetAll() ([]Employee, error)
 }
 
-func NewRepository(db *sql.DB) *repository {
+func NewRepository(db *sql.DB) Repository {
 	return &repository{db}
 }
 
